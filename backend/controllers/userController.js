@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getProfile = asyncHandler(async (req, res) => {
   const { id, fullName } = await User.findById(req.user.id);
-  res.json({ message: 'user data' });
+  res.json({ profile: fullName });
 });
 
 module.exports = { registerUser, loginUser, getProfile };
