@@ -1,19 +1,26 @@
+const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const bycrypt = require('bcryptjs');
-const asyncHandler = require('express-async-handler');
 
 const User = require('../models/userModel');
-const bcrypt = require('bcryptjs/dist/bcrypt');
 
-//POST /api/users/
+//generate jwt
+const genJwt = (id) => {
+  return jwt.sign({ myId: id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+};
+
+//Public - REGISTER - POST /api/users/register
+
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username || !email || !password) {
+  const { fullName, email, password } = req.body;
+  if (!fullName || !email || !password) {
     res.status(400);
     throw new Error('Some fields are missing');
   }
 
-  //check if user exists
+  //user exists?
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
@@ -26,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //create user
   const newUser = await User.create({
-    username,
+    fullName,
     email,
     password: hashedPassword,
   });
@@ -34,8 +41,8 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newUser) {
     res.status(201).json({
       id: newUser.id,
-      username: newUser.username,
-      password: newUser.password,
+      fullName: newUser.fullName,
+      token: genJwt(newUser.id),
     });
   } else {
     res.status(400);
@@ -43,14 +50,32 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-//POST /api/users/login
-const loginUser = asyncHandler(async (req, res) =>
-  res.json({ message: 'user login' })
-);
+//Public - LOGIN - POST /api/users/login
 
-//GET /api/users/me
-const getMe = asyncHandler(async (req, res) =>
-  res.json({ message: 'user data' })
-);
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400);
+    throw new Error('Some fields are missing');
+  }
+  //check email & password
+  const user = await User.findOne({ email });
+  if (user && (await bycrypt.compare(password, user.password))) {
+    res.status(200).json({
+      message: `${user.fullName} has logged in`,
+      token: genJwt(user.id),
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
+  }
+});
 
-module.exports = { registerUser, loginUser, getMe };
+//Protected - PROFILE - GET /api/users/profile
+
+const getProfile = asyncHandler(async (req, res) => {
+  const { id, fullName } = await User.findById(req.user.id);
+  res.json({ message: 'user data' });
+});
+
+module.exports = { registerUser, loginUser, getProfile };
