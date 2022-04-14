@@ -1,5 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { login, reset } from '../features/auth/authSlice';
+
+import Loading from './components/Loading';
+import { Logs } from './components/Logs';
+import Button from './components/Button';
 
 import { FaSignInAlt } from 'react-icons/fa';
 
@@ -11,16 +18,55 @@ const Login = () => {
 
   const { email, password } = formData;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => {
+      return state.auth;
+    }
+  );
+
+  const [logs, setLogs] = useState(message);
+
   const onChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
+  useEffect(() => {
+    if (isError) {
+      setLogs(() => {
+        return message;
+      });
+    }
+    if (isSuccess) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    if (!email || !password) {
+      setLogs('Some fields are missing');
+      return;
+    }
+    const loginData = {
+      email,
+      password,
+    };
+
+    dispatch(login(loginData));
   };
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <div className="register">
       <h3>
@@ -48,7 +94,8 @@ const Login = () => {
           ></input>
         </div>
         <div className="formSection">
-          <button>Submit</button>
+          <Button text="Login"></Button>
+          <Logs log={logs}></Logs>
         </div>
       </form>
     </div>

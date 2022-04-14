@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
-    throw new Error('User exists');
+    throw new Error('User already exists');
   }
 
   //hash password
@@ -40,8 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (newUser) {
     res.status(201).json({
-      id: newUser.id,
-      fullName: newUser.fullName,
       token: genJwt(newUser.id),
     });
   } else {
@@ -62,7 +60,6 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user && (await bycrypt.compare(password, user.password))) {
     res.status(200).json({
-      message: `${user.fullName} has logged in`,
       token: genJwt(user.id),
     });
   } else {

@@ -1,7 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { register, reset } from '../features/auth/authSlice';
+
+import Loading from './components/Loading';
+import Button from './components/Button';
 
 import { FaUserPlus } from 'react-icons/fa';
+import { Logs } from './components/Logs';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,8 +17,17 @@ const Register = () => {
     password: '',
     password2: '',
   });
-
   const { fullName, email, password, password2 } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => {
+      return state.auth;
+    }
+  );
+  const [logs, setLogs] = useState(message);
 
   const onChange = (e) => {
     setFormData((prev) => ({
@@ -19,14 +35,48 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  useEffect(() => {
+    console.log(user);
+    if (isError) {
+      setLogs(() => {
+        return message;
+      });
+    }
+    if (isSuccess) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    if (!fullName || !email || !password || !password2) {
+      setLogs('Some fields are missing');
+      return;
+    }
+    if (password !== password2) {
+      setLogs('Passwords dont match');
+      return;
+    } else {
+      const registerData = {
+        fullName,
+        email,
+        password,
+      };
+      dispatch(register(registerData));
+    }
   };
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <div className="register">
       <h3>
-        <FaUserPlus></FaUserPlus> Create an account
+        <FaUserPlus></FaUserPlus> Create new account
       </h3>
       <form onSubmit={onSubmit}>
         <div className="formSection">
@@ -70,7 +120,8 @@ const Register = () => {
           ></input>
         </div>
         <div className="formSection">
-          <button>Submit</button>
+          <Button text="Register"></Button>
+          <Logs log={logs}></Logs>
         </div>
       </form>
     </div>
