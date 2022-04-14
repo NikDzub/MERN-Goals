@@ -4,7 +4,7 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(176, 176, 176);
+  background-color: rgb(218, 218, 218);
 }
 .container {
   height: 100vh;
@@ -85,15 +85,19 @@ header button {
   color: white;
   border-radius: 5px;
   margin-top: 20px;
-  font-size: 1rem;
-  border: 0px;
+  border: 1px solid black;
   width: 160px;
   padding: 10px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 .formSection button:hover {
-  background-color: rgb(50, 50, 50);
+  background-color: white;
+  color: black;
 }
 #loading {
+  font-size: 1.3rem;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -103,7 +107,7 @@ header button {
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.419);
+  background-color: rgba(0, 0, 0, 0.336);
 }
 .logs {
   font-size: 0.9rem;
@@ -112,4 +116,64 @@ header button {
 }
 .logs svg {
   color: yellow;
+}
+.goalsContainer {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.singleGoal {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  width: 60%;
+  margin: 10px;
+  text-overflow: ellipsis;
+  background-color: black;
+  color: white;
+}
+.singleGoal h2 {
+  color: black;
+}
+.singleGoal svg {
+  cursor: pointer;
+  display: block;
+  margin: 10px;
+  color: lightgray;
+}
+.singleGoal svg:hover {
+  color: white;
+}
+.singleGoal input {
+  border-radius: 5px;
+  padding: 4px;
+  text-align: center;
+  border: 1px solid black;
+  font-size: 1rem;
+  background-color: white;
+}
+.opener {
+  border-radius: 5px;
+  padding: 0px 10px 5px 10px;
+  margin: 30px;
+  background-color: black;
+}
+.opener h1 {
+  font-size: 2.5rem;
+  color: yellow;
+}
+.opener p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+}
+.goalIconsContainer {
+  display: flex;
+  flex-direction: row;
+}
+.singleGoalTitleContainer {
+  border-radius: 5px 5px 0px 0px;
+  background-color: yellow;
 }

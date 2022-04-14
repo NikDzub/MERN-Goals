@@ -37,6 +37,9 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
     if (isError) {
       setLogs(() => {
         return message;

@@ -37,7 +37,9 @@ const Register = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    if (user) {
+      navigate('/');
+    }
     if (isError) {
       setLogs(() => {
         return message;

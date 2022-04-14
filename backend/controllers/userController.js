@@ -41,6 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newUser) {
     res.status(201).json({
       token: genJwt(newUser.id),
+      fullName: newUser.fullName,
     });
   } else {
     res.status(400);
@@ -61,6 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await bycrypt.compare(password, user.password))) {
     res.status(200).json({
       token: genJwt(user.id),
+      fullName: user.fullName,
     });
   } else {
     res.status(400);
@@ -71,8 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //Protected - PROFILE - GET /api/users/profile
 
 const getProfile = asyncHandler(async (req, res) => {
-  const { id, fullName } = await User.findById(req.user.id);
-  res.json({ profile: fullName });
+  res.json(req.user);
 });
 
 module.exports = { registerUser, loginUser, getProfile };

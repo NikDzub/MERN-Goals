@@ -66,8 +66,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(register.fulfilled, (state, action) => {
-      console.log('heree:: acttpyld');
-      console.log(action);
       state.isLoading = false;
       if (action.payload) {
         state.user = action.payload;
