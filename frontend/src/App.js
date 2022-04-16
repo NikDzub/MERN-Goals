@@ -20,7 +20,6 @@ function App() {
             <Route path="/login" element={<Login></Login>}></Route>
           </Routes>
         </div>
-        <Footer></Footer>
       </BrowserRouter>
     </>
   );
