@@ -81,12 +81,12 @@ export const deleteGoal = createAsyncThunk(
 //Update Goal
 export const updateGoal = createAsyncThunk(
   'goals/update',
-  async (editText, thunkAPI) => {
+  async (goalInfo, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
       const localToken = JSON.parse(localStorage.getItem('user'));
       if (localToken || token === localToken.token) {
-        return await goalService.updateGoal(editText, token);
+        return await goalService.updateGoal(goalInfo, token);
       }
     } catch (error) {
       const message =
@@ -117,7 +117,7 @@ export const goalSlice = createSlice({
     builder.addCase(createGoal.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.goals.push(action.payload);
+      state.goals.unshift(action.payload);
     });
     builder.addCase(createGoal.rejected, (state, action) => {
       state.isError = true;
@@ -157,7 +157,7 @@ export const goalSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.message = action.payload;
-      state.goals = [];
+      //state.goals = [];
     });
     //Update goal
     builder.addCase(updateGoal.pending, (state) => {
@@ -168,8 +168,10 @@ export const goalSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
       state.goals = state.goals.map((goal) => {
-        goal._id === action.payload._id &&
-          (goal.goalText = action.payload.goalText);
+        if (goal._id === action.payload._id) {
+          goal.goalText = action.payload.goalText;
+          goal.private = action.payload.private;
+        }
         return goal;
       });
     });
@@ -178,7 +180,7 @@ export const goalSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.message = action.payload;
-      state.goals = [];
+      //state.goals = [];
     });
   },
 });

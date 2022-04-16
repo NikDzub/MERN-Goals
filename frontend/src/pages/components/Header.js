@@ -30,7 +30,7 @@ const Header = () => {
           <>
             <li>
               <button onClick={onLogout}>
-                <FaSignInAlt></FaSignInAlt>
+                <FaSignOutAlt></FaSignOutAlt>
                 Logout
               </button>
             </li>

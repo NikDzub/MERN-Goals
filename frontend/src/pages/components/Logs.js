@@ -5,7 +5,7 @@ export const Logs = (props) => {
   return props.log ? (
     <div className="logs">
       <FaExclamationTriangle></FaExclamationTriangle>
-      {props.log + ' '}
+      {' ' + props.log}
     </div>
   ) : (
     <></>

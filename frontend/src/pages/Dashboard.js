@@ -15,9 +15,11 @@ const Dashboard = () => {
   const { user } = useSelector((state) => {
     return state.auth;
   });
-  const { goals, isLoading, isError, message } = useSelector((state) => {
-    return state.goal;
-  });
+  const { goals, isLoading, isError, message, isSucsess } = useSelector(
+    (state) => {
+      return state.goal;
+    }
+  );
 
   useEffect(() => {
     if (!user) {
@@ -27,9 +29,8 @@ const Dashboard = () => {
       //console.log(message);
     }
     dispatch(getGoals());
+    dispatch(reset());
   }, [user, navigate, message]);
-
-  const [uiGoals, setUiGoals] = useState(goals);
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -39,21 +40,16 @@ const Dashboard = () => {
       <div className="dashboard">
         <div className="opener">
           <h1>Hey, {user.fullName}</h1>
-          {goals.length < 1 ? (
-            <p>
-              Setting goals is the first step in turning the invisible into the
-              visible !
-            </p>
-          ) : (
-            <p>A goal properly set is halfway reached !</p>
-          )}
+          <p>Share your goals with the world 🎯</p>
         </div>
         <GoalForm></GoalForm>
         <div>
           {goals.length > 0 && (
             <div className="goalsContainer">
               {goals.map((goal) => {
-                return <GoalItem key={goal._id} goal={goal}></GoalItem>;
+                if (goal._id) {
+                  return <GoalItem key={goal._id} goal={goal}></GoalItem>;
+                }
               })}
             </div>
           )}

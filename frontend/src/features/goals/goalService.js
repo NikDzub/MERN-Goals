@@ -9,7 +9,11 @@ const createGoal = async (goalText, token) => {
       Authorization: 'Bearer ' + token,
     },
   };
-  const res = await axios.post(API_URL, { goalText }, config);
+  const res = await axios.post(
+    API_URL,
+    { goalText, userName: 'who', likes: {} },
+    config
+  );
   return res.data;
 };
 
@@ -21,6 +25,11 @@ const getGoals = async (token) => {
     },
   };
   const res = await axios.get(API_URL, config);
+  res.data.sort((goal1, goal2) => {
+    return (
+      new Date(goal2.createdAt).getTime() - new Date(goal1.createdAt).getTime()
+    );
+  });
   return res.data;
 };
 
@@ -35,15 +44,15 @@ const deleteGoal = async (goalId, token) => {
   return res.data;
 };
 //Update goal
-const updateGoal = async (editText, token) => {
+const updateGoal = async (goalInfo, token) => {
   const config = {
     headers: {
       Authorization: 'Bearer ' + token,
     },
   };
   const res = await axios.put(
-    API_URL + editText.id,
-    { goalText: editText.text },
+    API_URL + goalInfo.id,
+    { goalText: goalInfo.text, private: goalInfo.private },
     config
   );
 

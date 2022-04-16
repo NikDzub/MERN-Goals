@@ -26,7 +26,7 @@ const GoalForm = () => {
         <div className="formSection">
           <input
             required
-            placeholder="My new goal is..."
+            placeholder="My Next Goal"
             type="text"
             id="goal"
             name="goal"
@@ -35,7 +35,7 @@ const GoalForm = () => {
           ></input>
         </div>
         <div className="formSection">
-          <Button text="Save Goal"></Button>
+          <Button text="Share Goal"></Button>
         </div>
       </form>
     </div>

@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 import Header from './pages/components/Header';
+import Footer from './pages/components/Footer';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login></Login>}></Route>
           </Routes>
         </div>
+        <Footer></Footer>
       </BrowserRouter>
     </>
   );

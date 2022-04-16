@@ -54,7 +54,13 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!fullName || !email || !password || !password2) {
+    if (
+      !fullName ||
+      fullName.trim().length < 1 ||
+      !email ||
+      !password ||
+      !password2
+    ) {
       setLogs('Some fields are missing');
       return;
     }
@@ -83,7 +89,7 @@ const Register = () => {
       <form onSubmit={onSubmit}>
         <div className="formSection">
           <input
-            placeholder="Full Name"
+            placeholder="Username"
             type="text"
             id="fullName"
             name="fullName"

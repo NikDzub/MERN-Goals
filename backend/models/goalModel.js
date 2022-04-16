@@ -11,6 +11,8 @@ const goalSchema = mongoose.Schema(
       type: String,
       required: [true, 'Goal text cannot be empty'],
     },
+    private: { type: Boolean, default: false },
+    userName: { type: String, required: [true, 'no username'] },
   },
   {
     timestamps: true,

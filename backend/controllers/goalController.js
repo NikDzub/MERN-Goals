@@ -6,7 +6,13 @@ const User = require('../models/userModel');
 //Protected - GET ALL GOALS - GET /api/goals
 
 const getGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find({ user: req.user.id });
+  const goals = await Goal.find({ private: false });
+  goals.push(...(await Goal.find({ user: req.user.id, private: true })));
+  const user = await User.find({ _id: req.user.id });
+  goals.map(async (e) => {
+    e.name = user.fullName;
+    return e;
+  });
   res.status(200).json(goals);
 });
 
@@ -34,6 +40,7 @@ const postGoal = asyncHandler(async (req, res) => {
   }
   const newGoal = await Goal.create({
     user: req.user.id,
+    userName: req.user.fullName,
     goalText: req.body.goalText,
   });
   res.status(200).json(newGoal);
@@ -51,14 +58,19 @@ const updateGoal = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Goal not found');
   }
+
   if (goal.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error('Not authorized');
   }
 
-  const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const updatedGoal = await Goal.findByIdAndUpdate(
+    req.params.id,
+    { goalText: req.body.goalText, private: req.body.private },
+    {
+      new: true,
+    }
+  );
   res.status(200).json(updatedGoal);
 });
 

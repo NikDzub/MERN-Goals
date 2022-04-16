@@ -4,12 +4,15 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(218, 218, 218);
+  background-color: gold;
 }
 .container {
-  height: 100vh;
+  background-image: linear-gradient(rgb(80, 80, 80), rgb(43, 43, 43));
+  height: 100%;
+  min-height: 100vh;
   justify-content: center;
   text-align: center;
+  padding-bottom: 70px;
 }
 a {
   text-decoration: none;
@@ -32,14 +35,16 @@ li {
 }
 header {
   height: min-content;
-  background-color: yellow;
+  background-color: gold;
   text-decoration: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid black;
+  margin-bottom: 100px;
 }
 header button {
+  cursor: pointer;
   font-size: 1rem;
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -63,9 +68,15 @@ header button {
   flex-direction: column;
 }
 .register h3 {
+  border-radius: 5px;
+  padding: 20px 10px 20px 10px;
+  margin: 30px;
+  background-color: black;
+  color: gold;
   font-size: 40px;
 }
 .register h3 svg {
+  color: gold;
   width: 40px;
   height: 40px;
 }
@@ -111,11 +122,11 @@ header button {
 }
 .logs {
   font-size: 0.9rem;
-  color: rgb(70, 70, 70);
+  color: white;
   padding: 20px;
 }
 .logs svg {
-  color: yellow;
+  color: gold;
 }
 .goalsContainer {
   padding: 5px;
@@ -132,7 +143,6 @@ header button {
   margin: 10px;
   text-overflow: ellipsis;
   background-color: black;
-  color: white;
 }
 .singleGoal h2 {
   color: black;
@@ -147,12 +157,20 @@ header button {
   color: white;
 }
 .singleGoal input {
+  width: 80%;
   border-radius: 5px;
-  padding: 4px;
+  padding: 7px;
   text-align: center;
   border: 1px solid black;
   font-size: 1rem;
   background-color: white;
+}
+.singleGoal p {
+  margin: 5px;
+}
+.singleGoalInfo {
+  color: rgb(194, 194, 194);
+  font-size: 0.8rem;
 }
 .opener {
   border-radius: 5px;
@@ -162,7 +180,7 @@ header button {
 }
 .opener h1 {
   font-size: 2.5rem;
-  color: yellow;
+  color: gold;
 }
 .opener p {
   font-size: 1.2rem;
@@ -174,6 +192,18 @@ header button {
   flex-direction: row;
 }
 .singleGoalTitleContainer {
+  border: 1px solid black;
   border-radius: 5px 5px 0px 0px;
-  background-color: yellow;
+  background-image: linear-gradient(rgb(247, 247, 247), rgb(231, 231, 231));
+}
+.myGoal {
+  background-image: linear-gradient(gold, rgb(229, 195, 0));
+}
+.footer {
+  border-top: 1px solid black;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  bottom: 0px;
+  background-color: gold;
 }
