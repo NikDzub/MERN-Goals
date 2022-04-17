@@ -84,7 +84,7 @@ const Register = () => {
   return (
     <div className="register">
       <h3>
-        <FaUserPlus></FaUserPlus> Create new account
+        <FaUserPlus></FaUserPlus> Create an account
       </h3>
       <form onSubmit={onSubmit}>
         <div className="formSection">
